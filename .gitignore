@@ -1,0 +1,13 @@
+node_modules
+dist
+.data
+.nitro
+.cache
+.output
+.env
+.env.local
+skills
+.agents
+.claude
+bun.lock
+package-lock.json

@@ -1,0 +1,135 @@
+// Variables
+$primary: #2563eb;
+$primary-hover: #1d4ed8;
+$bg-light: #f8fafc;
+$bg-dark: #0f172a;
+$text-light: #1e293b;
+$text-dark: #f1f5f9;
+$border-light: #e2e8f0;
+$border-dark: #334155;
+$spacing: 1rem;
+$radius: 8px;
+$transition: 0.2s ease;
+
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  // Light theme (default)
+  --bg: #{$bg-light};
+  --text: #{$text-light};
+  --border: #{$border-light};
+  --primary: #{$primary};
+  --primary-hover: #{$primary-hover};
+  --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #{$bg-dark};
+    --text: #{$text-dark};
+    --border: #{$border-dark};
+    --surface: #1e293b;
+    --surface-hover: #334155;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color $transition, color $transition;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color $transition;
+
+  &:hover {
+    color: var(--primary-hover);
+  }
+}
+
+button {
+  border-radius: $radius;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: background-color $transition, border-color $transition, opacity $transition;
+
+  &:hover {
+    background-color: var(--primary-hover);
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+input, select, textarea {
+  border-radius: $radius;
+  border: 1px solid var(--border);
+  padding: 0.5em 0.75em;
+  font-size: 1em;
+  font-family: inherit;
+  background-color: var(--surface);
+  color: var(--text);
+  transition: border-color $transition, box-shadow $transition;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+  }
+}
+
+// Utility classes
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing;
+}
+
+.flex {
+  display: flex;
+}
+
+.gap-sm { gap: 0.5rem; }
+.gap-md { gap: 1rem; }
+.gap-lg { gap: 1.5rem; }
+
+.text-center { text-align: center; }
+.mt-md { margin-top: 1rem; }
+.mb-md { margin-bottom: 1rem; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}

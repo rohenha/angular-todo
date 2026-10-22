@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": ["node"],
+    "target": "es2022",
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "lib": ["es2022", "dom"],
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "noEmit": false
+  },
+  "include": ["app/**/*.ts"],
+  "exclude": ["app/**/*.spec.ts"]
+}

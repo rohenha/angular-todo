@@ -1,0 +1,27 @@
+{
+  "extends": ["nitro/tsconfig"],
+  "compilerOptions": {
+    "paths": {
+      "~/*": ["./*"]
+    },
+    "types": ["node", "vite/client"],
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "es2022",
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "lib": ["es2022", "dom"],
+    "experimentalDecorators": true,
+    "skipLibCheck": true
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictOutputAccessModifiers": true
+  }
+}

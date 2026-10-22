@@ -1,0 +1,12 @@
+<header class="o-header">
+  <div class="container o-header__content">
+    <a routerLink="/" class="a-logo" routerLinkActive="active">
+      <span class="a-logo__icon">📝</span>
+      <span class="a-logo__text">Angular Todo</span>
+    </a>
+    <nav class="m-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Accueil</a>
+      <a routerLink="/todos" routerLinkActive="active">Todos</a>
+    </nav>
+  </div>
+</header>
