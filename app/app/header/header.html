@@ -1,12 +1,19 @@
 <header class="o-header">
-  <div class="container o-header__content">
-    <a routerLink="/" class="a-logo" routerLinkActive="active">
-      <span class="a-logo__icon">📝</span>
+  <div class="l-container o-header__content">
+    <a routerLink="/" class="a-logo" aria-label="Angular Todo — Accueil">
+      <span class="a-logo__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.5 12.6 10.2 16.3 17.8 7.8" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
       <span class="a-logo__text">Angular Todo</span>
     </a>
-    <nav class="m-nav">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Accueil</a>
-      <a routerLink="/todos" routerLinkActive="active">Todos</a>
+
+    <nav class="m-nav" aria-label="Navigation principale">
+      <a routerLink="/" class="m-nav__link" routerLinkActive="m-nav__link--active"
+        [routerLinkActiveOptions]="{ exact: true }">Accueil</a>
+      <a routerLink="/todos" class="m-nav__link" routerLinkActive="m-nav__link--active">Todos</a>
     </nav>
   </div>
 </header>

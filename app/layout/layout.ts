@@ -1,27 +1,26 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../app/header/header';
 import { FooterComponent } from '../app/footer/footer';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   template: `
-      <app-header/>
-      <main class="main">
-        <div class="container">
-          <router-outlet />
-        </div>
-      </main>
-      <app-footer/>
-
+    <app-header />
+    <main class="l-main" id="contenu">
+      <div class="l-container">
+        <router-outlet />
+      </div>
+    </main>
+    <app-footer />
   `,
   styles: [`
-    .main {
-      flex: 1;
-      padding: 2rem 0;
+    :host {
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
     }
   `],
 })

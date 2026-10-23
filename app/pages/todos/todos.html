@@ -1,1 +1,80 @@
-<p>todo works!</p>
+<section class="o-todos">
+  <header class="o-todos__header">
+    <div class="o-todos__intro">
+      <h1 class="o-todos__title">Mes todos</h1>
+      <p class="o-todos__meta">{{ remainingLabel() }}</p>
+    </div>
+
+    <div class="o-todos__progress" role="img" [attr.aria-label]="progressLabel()">
+      <svg class="o-todos__ring" viewBox="0 0 36 36" aria-hidden="true">
+        <circle class="o-todos__ring-track" cx="18" cy="18" r="15.5" />
+        <circle class="o-todos__ring-value" cx="18" cy="18" r="15.5"
+          [attr.stroke-dasharray]="ringDash()" />
+      </svg>
+      <span class="o-todos__count" aria-hidden="true">{{ remainingCount() }}</span>
+    </div>
+  </header>
+
+  <form class="o-todos__form" (ngSubmit)="addTodo()">
+    <label class="u-visually-hidden" for="new-todo">Nouvelle tâche</label>
+    <input
+      id="new-todo"
+      class="a-field o-todos__input"
+      type="text"
+      name="newTodo"
+      [(ngModel)]="newTodoTitle"
+      placeholder="Nouvelle tâche"
+      autocomplete="off"
+      enterkeyhint="done"
+    />
+    <button
+      class="a-icon-button o-todos__add"
+      type="submit"
+      [disabled]="!newTodoTitle.trim()"
+      aria-label="Ajouter la tâche"
+    >
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" />
+      </svg>
+    </button>
+  </form>
+
+  <div class="o-todos__list" role="list">
+    @for (todo of todos(); track todo.id) {
+      <div class="o-todos__row" role="listitem" [class.o-todos__row--done]="todo.completed">
+        <button
+          class="o-todos__check"
+          type="button"
+          [attr.aria-pressed]="todo.completed"
+          [attr.aria-label]="(todo.completed ? 'Rouvrir : ' : 'Terminer : ') + todo.title"
+          (click)="toggleTodo(todo)"
+        >
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12.5 10 17.5 19 7" stroke="currentColor" stroke-width="2.6"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <span class="o-todos__label">{{ todo.title }}</span>
+
+        <button
+          class="o-todos__delete"
+          type="button"
+          [attr.aria-label]="'Supprimer : ' + todo.title"
+          (click)="deleteTodo(todo.id)"
+        >
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 7l10 10M17 7 7 17" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+    } @empty {
+      <div class="o-todos__empty">
+        <p class="o-todos__empty-title">Aucune tâche</p>
+        <p class="o-todos__empty-text">Ajoutez votre première tâche pour commencer.</p>
+      </div>
+    }
+  </div>
+</section>

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { FooterComponent } from './footer';
 import { describe, beforeEach, it, expect } from 'vitest';
@@ -9,7 +10,8 @@ describe('Header', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FooterComponent]
+      imports: [FooterComponent],
+      providers: [provideRouter([])],
     })
     .compileComponents();
 
