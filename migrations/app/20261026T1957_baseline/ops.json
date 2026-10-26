@@ -1,0 +1,65 @@
+[
+  {
+    "id": "collection.Todo.create",
+    "label": "Create collection Todo",
+    "operationClass": "additive",
+    "precheck": [
+      {
+        "description": "collection Todo does not exist",
+        "source": {
+          "kind": "listCollections"
+        },
+        "filter": {
+          "kind": "field",
+          "field": "name",
+          "op": "$eq",
+          "value": "Todo"
+        },
+        "expect": "notExists",
+        "object": "collection \"Todo\""
+      }
+    ],
+    "execute": [
+      {
+        "description": "create collection Todo",
+        "command": {
+          "kind": "createCollection",
+          "collection": "Todo",
+          "validator": {
+            "$jsonSchema": {
+              "additionalProperties": false,
+              "bsonType": "object",
+              "properties": {
+                "_id": {
+                  "bsonType": "objectId"
+                },
+                "completed": {
+                  "bsonType": "bool"
+                },
+                "createdAt": {
+                  "bsonType": "date"
+                },
+                "title": {
+                  "bsonType": "string"
+                },
+                "updatedAt": {
+                  "bsonType": "date"
+                }
+              },
+              "required": [
+                "_id",
+                "completed",
+                "createdAt",
+                "title",
+                "updatedAt"
+              ]
+            }
+          },
+          "validationLevel": "strict",
+          "validationAction": "error"
+        }
+      }
+    ],
+    "postcheck": []
+  }
+]

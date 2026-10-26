@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, computed, signal, type OnInit, type Signal } from '@angular/core';
+import { Component, computed, signal, inject, type OnInit, type Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { filter, reduce, type Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import TodosService from '../../services/TodosService';
+import { TodosService } from '../../services/TodosService';
 interface Todo {
   id: string;
   title: string;
@@ -20,7 +20,9 @@ interface Todo {
 export class TodosComponent implements OnInit{
   todos!: Signal<Todo[]>
   newTodoTitle = ''
-  constructor(private todoService: TodosService){
+  private readonly todoService = inject(TodosService);
+
+  constructor() {
     this.todos = toSignal(this.todoService.getAllTodos(), { initialValue: [] as Todo[] });
   }
 

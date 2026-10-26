@@ -1,7 +1,6 @@
-import { defineHandler } from "nitro";
+import { defineHandler } from 'nitro';
+import { db } from '../utils/prisma';
 
-export default defineHandler((event) => {
-  return [
-    { id: '1', title: 'Apprendre Nitro', completed: true },
-  ]
+export default defineHandler(async () => {
+  return await db.orm.Todo.orderBy({ createdAt: 1 }).all();
 });

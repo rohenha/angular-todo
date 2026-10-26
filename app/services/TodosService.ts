@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { map, type Observable } from "rxjs";
 
 interface Todo {
@@ -12,9 +12,9 @@ interface Todo {
   providedIn: 'root'
 })
 
-export default class TodosService {
+export class TodosService {
   
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
   getAllTodos(): Observable<Todo[]> {
     return this.http.get<Todo[]>('http://localhost:3000/api/todos')

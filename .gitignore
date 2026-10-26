@@ -9,5 +9,4 @@ dist
 skills
 .agents
 .claude
-bun.lock
 package-lock.json

@@ -1,13 +1,16 @@
-FROM node:22-alpine
-
+# Install dependencies with Bun (npm cannot resolve this dependency tree)
+FROM oven/bun:1 AS deps
 WORKDIR /app
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 
-# Install deps first (cached layer)
-COPY package*.json ./
-RUN npm ci
+# Musl build of Bun, compatible with the Alpine runtime below
+FROM oven/bun:alpine AS bun
 
-# Expose Vite dev server + Nitro ports
+FROM node:22-alpine
+RUN apk add --no-cache libstdc++
+COPY --from=bun /usr/local/bin/bun /usr/local/bin/bun
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 EXPOSE 3000 5173
-
-# Dev command (overridden by compose command)
 CMD ["npm", "run", "dev"]

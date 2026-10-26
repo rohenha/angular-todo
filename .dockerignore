@@ -1,0 +1,9 @@
+node_modules
+.output
+.nitro
+.data
+.cache
+.git
+.env
+.env.local
+*.log

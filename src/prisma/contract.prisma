@@ -1,0 +1,11 @@
+// use prisma-8
+
+model Todo {
+  id        ObjectId @id @map("_id")
+  title     String
+  completed Bool
+  createdAt Date @onCreate(now())
+  updatedAt Date @onCreate(now()) @onUpdate(now())
+
+  @@map("Todo")
+}
