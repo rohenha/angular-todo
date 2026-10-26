@@ -4,7 +4,8 @@ import vine from "@vinejs/vine"
 import { db } from '../../utils/prisma'
 
 const schema = vine.object({
-  title: vine.string()
+  title: vine.string().optional(),
+  completed: vine.boolean().optional(),
 })
 export default defineHandler(async (event) => {
   const contentType = event.req.headers.get('content-type') ?? '';
@@ -14,11 +15,12 @@ export default defineHandler(async (event) => {
   }
   try {
     const body = contentType.includes('application/json')
-      ? await event.req.json() as { title: string }
-      : Object.fromEntries((await event.req.formData()).entries()) as { title: string };
+      ? await event.req.json() as { title: string, completed: boolean }
+      : Object.fromEntries((await event.req.formData()).entries()) as unknown as { title: string, completed: boolean };
   
     const data = {
-      title: body.title
+      title: body.title,
+      completed: body.completed
     }
   
     const output = await vine.validate({

@@ -2,17 +2,21 @@ import { defineConfig } from "vite";
 import { nitro } from "nitro/vite";
 import angular from "@analogjs/vite-plugin-angular";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   oxc: {},
   plugins: [
     angular({
       tsconfig: "tsconfig.app.json",
       workspaceRoot: process.cwd(),
+      // Dev only: fastCompile watches external templates/styles and emits
+      // template HMR updates. Production keeps the full AOT + type-check path.
+      fastCompile: command === "serve",
+      liveReload: command === "serve",
     }),
     nitro(),
   ],
   resolve: {
-    tsconfigPaths: true
+    tsconfigPaths: true,
   },
   server: {
     watch: {
@@ -28,4 +32,4 @@ export default defineConfig({
       build: { rollupOptions: { input: "./app/entry-client.ts" } },
     },
   },
-});
+}));

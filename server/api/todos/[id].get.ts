@@ -15,6 +15,7 @@ export default defineHandler(async (event) => {
     const todo = await db.orm.Todo
       .where({ id })
       .first();
+      
     if (!todo) {
       throw new HTTPError({ status: 404, statusText: 'Not Found', message: 'Todo not found' });
     }

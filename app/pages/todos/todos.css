@@ -206,7 +206,7 @@
   text-decoration-thickness: 1px;
 }
 
-.o-todos__delete {
+.o-todos__btn {
   flex: none;
   display: grid;
   place-items: center;
@@ -219,17 +219,45 @@
     color 0.18s var(--ease-out);
 }
 
-.o-todos__delete svg {
+.o-todos__btn svg {
   width: 16px;
   height: 16px;
 }
 
-.o-todos__row:hover .o-todos__delete,
-.o-todos__delete:focus-visible {
+.o-todos__loading {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.o-todos__loading svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  animation: rotate 2s linear infinite;
+}
+
+.o-todos__row:hover .o-todos__btn,
+.o-todos__btn:focus-visible {
   opacity: 1;
 }
 
-.o-todos__delete:hover {
+.o-todos__btn.-edit:hover {
+  background-color: var(--surface-press);
+  color: var(--accent);
+}
+
+.o-todos__btn.-delete:hover {
   background-color: var(--surface-press);
   color: var(--danger);
 }
@@ -264,4 +292,45 @@
   .o-todos__title {
     font-size: 1.875rem;
   }
+}
+
+
+.o-todo__edit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.o-todo__edit .o-todos__input {
+  border-color: var(--accent);
+}
+
+.o-todo__edit button{
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transition: opacity 0.18s var(--ease-out), background-color 0.18s var(--ease-out),
+    color 0.18s var(--ease-out);
+}
+
+.o-todo__edit .o-todos__submit {
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-control);
+}
+
+.o-todo__edit .o-todos__cancel {
+  background-color: var(--danger);
+  color: var(--on-accent);
+  box-shadow: var(--shadow-control);
+}
+
+.o-todos__edit button svg {
+  width: 16px;
+  height: 16px;
 }

@@ -1,14 +1,6 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, computed, signal, inject, type OnInit, type Signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { filter, reduce, type Observable } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { TodosService } from '../../services/TodosService';
-interface Todo {
-  id: string;
-  title: string;
-  completed: boolean;
-}
+import { TodosService, type Todo } from '../../services/TodosService';
 
 @Component({
   selector: 'app-todos',
@@ -17,29 +9,19 @@ interface Todo {
   templateUrl: './todos.html',
   styleUrl: './todos.css',
 })
-export class TodosComponent implements OnInit{
-  todos!: Signal<Todo[]>
-  newTodoTitle = ''
+export class TodosComponent {
+  private newTodoTitle = '';
+  private editTodoId = '';
+  private editTodoTitle = '';
   private readonly todoService = inject(TodosService);
-
-  constructor() {
-    this.todos = toSignal(this.todoService.getAllTodos(), { initialValue: [] as Todo[] });
-  }
-
-  ngOnInit(): void {
-  }
-  // readonly todos = signal<Todo[]>([
-  //   { id: '1', title: 'Apprendre Nitro', completed: true },
-  //   { id: '2', title: 'Configurer Angular', completed: false },
-  //   { id: '3', title: 'Créer une API REST', completed: false },
-  // ]);
+  private readonly todosResource = this.todoService.todosResource;
+  
+  private readonly todos = computed(() => this.todosResource.value());
 
   readonly total = computed(() => this.todos().length);
 
   readonly completedCount = computed(
-    () => this.todos().filter((todo: Todo) => todo.completed).length
-    // () => this.todos$.pipe(filter((todos) => todos.filter((todo) => todo.completed))).length
-    // () => this.todos$.filter((todo: Todo) => todo.completed).length,
+    () => this.todos().filter((todo) => todo.completed).length,
   );
 
   readonly remainingCount = computed(() => this.total() - this.completedCount());
@@ -61,26 +43,54 @@ export class TodosComponent implements OnInit{
     return `${circumference * ratio} ${circumference}`;
   });
 
-  addTodo() {
-    // const title = this.newTodoTitle.trim();
-    // if (!title) return;
+  addTodo(): void {
+    const title = this.newTodoTitle.trim();
+    if (!title) return;
 
-    // this.todos.update((todos) => [
-    //   ...todos,
-    //   { id: crypto.randomUUID(), title, completed: false },
-    // ]);
-    // this.newTodoTitle = '';
+    this.todoService.createTodo({ title }).subscribe({
+      next: () => {
+        this.newTodoTitle = '';
+        this.todosResource.reload();
+      },
+      error: (error) => console.error('createTodo failed', error),
+    });
   }
 
-  toggleTodo(todo: Todo) {
-    // this.todos.update((todos) =>
-    //   todos.map((item) =>
-    //     item.id === todo.id ? { ...item, completed: !item.completed } : item,
-    //   ),
-    // );
+  updateTodo(): void {
+    const title = this.editTodoTitle.trim();
+    if (!title) return;
+    this.todoService.updateTodo(this.editTodoId, { title: title }).subscribe({
+      next: () => {
+        this.editTodoId = ''
+        this.editTodoTitle = ''
+        this.todosResource.reload()
+      }
+    })
   }
 
-  deleteTodo(id: string) {
-    // this.todos.update((todos) => todos.filter((todo) => todo.id !== id));
+  clearTodo(): void {
+    this.editTodoId = ''
+    this.editTodoTitle = ''
+  }
+
+  editTodo(todo: Todo): void {
+    this.editTodoId = todo.id
+    this.editTodoTitle = todo.title
+  }
+
+  toggleTodo(todo: Todo): void {
+    this.todoService
+      .updateTodo(todo.id, { completed: !todo.completed })
+      .subscribe({
+        next: () => this.todosResource.reload(),
+        error: (error) => console.error('updateTodo failed', error),
+      });
+  }
+
+  deleteTodo(id: string): void {
+    this.todoService.deleteTodo(id).subscribe({
+      next: () => this.todosResource.reload(),
+      error: (error) => console.error('deleteTodo failed', error),
+    });
   }
 }
